@@ -1,0 +1,48 @@
+{
+ "users": {
+  "lilkasteusz": {
+   "name": "LiLKasteusz",
+   "email": "jestemlegit5@gmail.com",
+   "salt": "adf0b8b0c433d2671f7caa2f4bc00a7b",
+   "hash": "1a23deb8da282f4c977613c6d21776c3a2eafd509e01f82b3152f30e2d517463",
+   "ratings": {
+    "bullet": 100,
+    "blitz": 100,
+    "rapid": 100,
+    "classical": 100
+   },
+   "cg": {
+    "bullet": 0,
+    "blitz": 0,
+    "rapid": 0,
+    "classical": 0
+   },
+   "games": 0,
+   "wins": 0,
+   "losses": 0,
+   "draws": 0,
+   "settings": {
+    "pieces": "pixel",
+    "light": "#e8c99b",
+    "dark": "#a8723d",
+    "hl": "#ffffff",
+    "size": 78,
+    "coords": true,
+    "hints": true,
+    "anim": true,
+    "arrow": "green",
+    "page": "default",
+    "premove": true,
+    "autoQueen": false,
+    "confirmResign": false,
+    "classify": true,
+    "sound": true
+   },
+   "friends": [],
+   "created": 1794755677963
+  }
+ },
+ "tokens": {
+  "5d7958f6f00d0993ac74c4b413d6d16dd8de8a84fc3bec35": "lilkasteusz"
+ }
+}

@@ -1,0 +1,11 @@
+node_modules/
+backup-*/
+szachy-surge/
+surge-site/
+*.zip
+.claude/
+start-tunnel.sh
+png/
+data/users.backup.json
+data/users.before-pw.json
+data/accounts-backup.*

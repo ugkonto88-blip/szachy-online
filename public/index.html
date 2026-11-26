@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#262421">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Szachy">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" href="/icon-192.png">
+  <title>SzachMat online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/redesign.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#14120f">
+</head>
+<body data-tab="play">
+  <nav class="sidenav">
+    <div class="logo"><svg viewBox="0 0 24 24" width="34" height="34" fill="#81b64c"><path d="M9 2h2v2h2V2h2v3l-1 1v2c1.7.8 3 2.4 3 4.4 0 1.3-.6 2.5-1.5 3.3L17 19h2v3H5v-3h2l1.5-3.3C7.6 14.9 7 13.7 7 12.4 7 10.4 8.3 8.8 10 8V6L9 5V2z"/></svg><div class="logotext"><span>SzachMat</span><small>online</small></div></div>
+    <div class="navlist" id="tabs">
+      <button data-tab="play" data-group="play" class="active"><i><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 2.5 7.1c1.9.9 3.2 2.8 3.2 5.1 0 1.5-.6 2.8-1.5 3.8L18 20v2H6v-2l1.8-2c-.9-1-1.5-2.3-1.5-3.8 0-2.3 1.3-4.2 3.2-5.1A4 4 0 0 1 12 2z"/></svg></i><span>Graj</span></button>
+      <div class="morebtn" id="learnToggle" role="button" tabindex="0"><i><svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2v4L12 21l7-3.8v-4L12 17l-7-3.8z"/></svg></i><span>Ucz się</span><em class="chev">▾</em></div>
+      <div class="moresub" id="learnSub" hidden>
+        <button data-tab="puzzle" data-group="learn"><span>Zadania</span></button>
+        <button data-tab="openings" data-group="learn"><span>Otwarcia</span></button>
+        <button data-tab="gambits" data-group="learn"><span>Gambity</span></button>
+      </div>
+      <button data-tab="community" data-group="social"><i><svg viewBox="0 0 24 24"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM9 13c-3.3 0-7 1.7-7 4v3h14v-3c0-2.3-3.7-4-7-4zm8 .5c-.5 0-1 0-1.5.1 1.1.9 1.5 2 1.5 3.4V20h5v-2.5c0-2-2.7-4-5-4z"/></svg></i><span>Społeczność</span></button>
+      <div class="morebtn" id="moreToggle" role="button" tabindex="0"><i><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/></svg></i><span>Więcej</span><em class="chev">▾</em></div>
+      <div class="moresub" id="moreSub" hidden>
+        <button data-tab="profile" data-group="more"><span>Profil</span></button>
+        <button data-tab="custom" data-group="more"><span>Wygląd</span></button>
+        <button data-tab="rank" data-group="social"><span>Ranking</span></button>
+      </div>
+    </div>
+    <div class="navfoot2">
+      <button id="navMyProfile" data-tab="profile" data-group="more"><i class="navav" id="navAv">?</i><span id="navMyName">Mój profil</span></button>
+      <button id="navSettings" data-tab="settings" data-group="more"><i><svg viewBox="0 0 24 24"><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.7 7.7 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1l.4 2.6h4l.4-2.6c.6-.3 1.200-.6 1.700-1l2.500 1 2-3.500L19.400 13zM13 15.500a3.500 3.500 0 1 1 0-7 3.500 3.500 0 0 1 0 7z"/></svg></i><span>Ustawienia</span></button>
+    </div>
+    <div class="navfoot">
+      <div class="engine-status" id="engineStatus">Silnik: –</div>
+      <div id="online" class="muted small"></div>
+    </div>
+  </nav>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb" id="crumb">Graj</div>
+      <div class="userbox">
+        <span id="me" class="me" hidden></span>
+        <button id="btnLogin" class="primary">Zaloguj</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="board-col">
+        <div class="player player-top">
+          <div class="pinfo"><span class="avatar" id="avTop"></span><span id="nameTop">Czarne</span><span class="mat" id="matTop"></span></div>
+          <span class="clock" id="clockTop"></span>
+        </div>
+        <div class="board-wrap">
+          <div class="evalbar" id="evalbar">
+            <div class="evalbar-black" id="evalBlack"></div>
+            <div class="evalbar-label" id="evalLabel">0.0</div>
+          </div>
+          <div class="board" id="board"></div>
+          <div class="reviewloader" id="reviewLoader" hidden>
+            <div class="rl-top">
+              <div class="rl-av" id="rlAv"></div>
+              <div class="rl-text">
+                <div class="rl-title">Przegląd partii</div>
+                <div class="rl-sub" id="rlSub">Uruchamiam silnik Stockfish…</div>
+              </div>
+              <div class="rl-pct" id="rlPct">0%</div>
+            </div>
+            <div class="rl-bar"><div class="rl-fill" id="rlFill"></div></div>
+            <div class="rl-moves" id="rlMoves"></div>
+          </div>
+          <div class="endcard" id="endCard" hidden>
+            <div class="endbanner" id="endBanner">
+              <button class="endx" id="endClose" title="Zamknij">✕</button>
+              <div class="endhead"><span id="endIcon">🏆</span><h2 id="endTitle"></h2></div>
+              <div class="endsub" id="endSub"></div>
+            </div>
+            <div class="endbody">
+              <div class="endplayers" id="endPlayers"></div>
+              <div class="endacc" id="endAcc" hidden></div>
+              <div class="endcoach"><div class="endav" id="endAv"></div><div class="endbubble" id="endMsg"></div></div>
+              <div class="endstats" id="endStats"></div>
+              <button class="big" id="btnEndReview">🔍 Przegląd partii</button>
+              <div class="row">
+                <button class="grow" id="btnEndNew">Nowa partia</button>
+                <button class="grow" id="btnEndRematch">Rewanż</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="player player-bottom">
+          <div class="pinfo"><span class="avatar" id="avBottom"></span><span id="nameBottom">Białe</span><span class="mat" id="matBottom"></span></div>
+          <span class="clock" id="clockBottom"></span>
+        </div>
+        <div class="controls" id="controls">
+          <button id="btnStart" title="Początek">⏮</button>
+          <button id="btnPrev" title="Wstecz (←)">◀</button>
+          <button id="btnNext" title="Dalej (→)">▶</button>
+          <button id="btnEnd" title="Koniec">⏭</button>
+          <button id="btnFlip" title="Obróć planszę (F)">⇅</button>
+          <button id="btnUndo" title="Cofnij ruch">↩</button>
+        </div>
+      </section>
+
+      <aside class="side-col">
+        <div class="subtabs" id="subtabs"></div>
+        <div class="tabpane" id="pane-puzzle" hidden>
+          <div class="panel">
+            <div class="panel-head"><h2 id="puzTitle">Zadanie</h2></div>
+            <div class="pad">
+              <div class="bubble" id="puzMsg" style="margin:0"></div>
+              <div class="puzscore" id="puzScore"></div>
+              <div class="muted small" id="puzStat"></div>
+              <div class="row">
+                <button class="grow primary" id="puzNext">Następne zadanie</button>
+                <button class="grow" id="puzHint">Podpowiedź</button>
+                <button class="grow" id="puzShow">Pokaż rozwiązanie</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tabpane" id="pane-play">
+          <div class="panel">
+            <div class="panel-head"><h2>Twoje rankingi</h2></div>
+            <div class="ratings" id="ratings"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Szukaj rywala</h2></div>
+            <div class="pad">
+              <button type="button" class="timebtn" id="timeBtn"><span id="timeBtnLabel">5 min</span><i>▾</i></button>
+              <div class="timesheet" id="timeSheet">
+                <div class="sheetbar"><button type="button" id="timeClose">✕</button><b>Wybierz czas</b></div>
+                <div id="modes"></div>
+              </div>
+              <div class="row">
+                <label>Wybrany tryb <b id="seekMode">5 min</b></label>
+              </div>
+              <button class="big" id="btnQueue">Szukaj gry</button>
+              <div class="seekbox" id="seekBox" hidden>
+                <div class="seekspin"></div>
+                <div><b id="seekTimer">0:00</b> <span class="muted small" id="seekRange"></span></div>
+              </div>
+              <div class="muted small" id="queueInfo"></div>
+              <div class="muted small">Start: 100 ELO w każdym trybie. Punkty zdobywasz tylko w partiach z graczami, boty i trener ich nie dają.</div>
+            </div>
+          </div>
+          <div class="panel" id="gamePanel" hidden>
+            <div class="panel-head"><h2 id="gameTitle">Partia</h2></div>
+            <div class="pad">
+              <div class="row">
+                <button id="btnResign">Poddaj się</button>
+                <button id="btnDraw">Remis</button>
+              </div>
+              <div class="chat" id="chat"></div>
+              <input id="chatIn" placeholder="Czat…" maxlength="200">
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-bots" hidden>
+          <div class="panel">
+            <div class="panel-head"><h2>Wybierz bota</h2></div>
+            <div class="botlist" id="botList"></div>
+            <div class="pad">
+              <div class="muted small">Partie z botami nie zmieniają rankingu ELO.</div>
+              <div class="row">
+                <button id="botWhite" class="grow">Białymi</button>
+                <button id="botBlack" class="grow">Czarnymi</button>
+                <button id="botRandom" class="grow">Losowo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-coach" hidden>
+          <div class="panel coachcard">
+            <div class="coachtop">
+              <div class="coachavatar" id="coachAvatar"></div>
+              <div class="coachwho">
+                <div class="coachname">LiLKasteusz <span class="coachbadge">TRENER</span></div>
+                <div class="coachstatus"><i class="cdot"></i> Online · Twój trener szachowy</div>
+              </div>
+            </div>
+            <div class="coachtalk">
+              <div class="bubble" id="coachSay">Cześć! Jestem LiLKasteusz. Zagraj ruch, a powiem Ci, co o nim myślę.</div>
+            </div>
+            <div class="coachactions">
+              <button id="coachPlay" class="primary coachcta">Zagraj lekcję z trenerem</button>
+              <div class="coachgrid">
+                <button id="coachHint" class="coachtile"><b>💡</b><span>Podpowiedź</span></button>
+                <button id="coachExplain" class="coachtile"><b>🔎</b><span>Oceń pozycję</span></button>
+              </div>
+            </div>
+            <div class="coachlog" id="coachLog"></div>
+            <div class="coachinput">
+              <input id="coachIn" placeholder="Napisz do trenera… (podpowiedź, ocena, cofnij, cześć)" maxlength="200">
+              <button id="coachSend" class="primary">Wyślij</button>
+            </div>
+            <div class="coachsettings">
+              <label class="check"><input type="checkbox" id="coachAuto" checked> Komentuj moje ruchy na bieżąco</label>
+              <label class="coachlvl"><span>Poziom trenera</span><input type="range" id="coachLevel" min="1" max="20" value="6"><b id="coachLevelVal">6</b></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-analysis" hidden>
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Analiza</h2>
+              <label class="switch"><input type="checkbox" id="engineToggle" checked><span>Silnik</span></label>
+            </div>
+            <div class="engine-info" id="engineInfo">głębokość –</div>
+            <div class="pad" style="padding-bottom:0">
+              <div class="review-actions">
+                <button id="btnReview" class="primary">Przeanalizuj partię</button>
+                <button id="btnNextKey" class="keybtn" hidden title="Przejdź do kolejnego błędu lub kluczowego ruchu">Kluczowy ruch ▶</button>
+              </div>
+              <div class="muted small" id="reviewInfo"></div>
+              <div class="movecard" id="moveCard" hidden></div>
+              <div class="reviewsummary" id="reviewSummary"></div>
+              <div class="evalgraph" id="evalGraph"></div>
+            </div>
+            <div class="settings">
+              <label>Linie <select id="multipv"><option>1</option><option selected>3</option><option>5</option></select></label>
+              <label>Wątki <select id="threads"></select></label>
+              <label>Hash <select id="hash"><option>64</option><option selected>256</option><option>1024</option><option>2048</option></select> MB</label>
+              <label class="check"><input type="checkbox" id="showArrow" checked> Strzałki</label>
+            </div>
+            <ol class="lines" id="lines"></ol>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Import / eksport</h2></div>
+            <textarea id="ioBox" rows="4" placeholder="Wklej PGN lub FEN…"></textarea>
+            <div class="io-buttons">
+              <button id="btnLoad">Wczytaj</button>
+              <button id="btnPgn">PGN</button>
+              <button id="btnFen">FEN</button>
+              <button id="btnReset">Nowa</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-profile" hidden>
+          <div class="panel">
+            <div class="profhero">
+              <div class="profavatar" id="myAvatar">?</div>
+              <div class="profwho">
+                <h2 id="myProfName">Mój profil</h2>
+                <div class="muted small" id="myProfSub"></div>
+                <div class="profbadges" id="myProfBadges"></div>
+              </div>
+            </div>
+            <div class="profratings" id="myRatings"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Wykres ELO</h2></div>
+            <div class="segs" id="eloCats"></div>
+            <div class="elograph" id="eloGraph"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Statystyki</h2></div>
+            <div class="wdlbar" id="wdlBar"></div>
+            <div class="mystats" id="myStats"></div>
+            <div class="profopenings" id="myOpenings"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Moje partie</h2></div>
+            <div class="segs" id="gameFilter"></div>
+            <div id="myGames" class="plist"></div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-rank" hidden>
+          <div class="panel">
+            <div class="panel-head"><h2>Ranking ELO</h2></div>
+            <div class="segs" id="rankCats"></div>
+            <table class="rank"><tbody id="rankBody"></tbody></table>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-community" hidden>
+          <div class="comhero">
+            <div><h1>Społeczność</h1><p>Znajdź graczy, dodawaj znajomych i wyzywaj ich na pojedynki.</p></div>
+            <div class="comstats"><div><b id="comOnline">–</b><span>online</span></div><div><b id="comFriends">0</b><span>znajomych</span></div></div>
+          </div>
+          <div class="comgrid">
+            <div class="comcol">
+              <div class="panel" id="profilePanel" hidden>
+                <div class="panel-head"><h2 id="profName">Profil</h2><button id="profClose">✕</button></div>
+                <div id="profBody"></div>
+                <div class="pad profactions">
+                  <div class="row">
+                    <button id="profFriend" class="grow">Dodaj do znajomych</button>
+                    <button id="profDuel" class="grow primary">⚔ Wyzwij na pojedynek</button>
+                  </div>
+                  <div class="quicktimes" id="quickTimes"><button data-t="1" data-i="0">1+0</button><button data-t="3" data-i="2">3+2</button><button data-t="5" data-i="0" class="sel">5+0</button><button data-t="10" data-i="0">10+0</button><button data-t="15" data-i="10">15+10</button></div>
+                  <input type="hidden" id="duelTime" value="5"><input type="hidden" id="duelInc" value="0">
+                  <div id="duelInfo" class="muted small"></div>
+                </div>
+              </div>
+              <div class="panel" id="challengePanel" hidden>
+                <div class="panel-head"><h2>Wyzwanie na pojedynek</h2></div>
+                <div class="pad">
+                  <div id="challengeText"></div>
+                  <div class="row">
+                    <button id="chAccept" class="grow primary">Przyjmij</button>
+                    <button id="chDecline" class="grow">Odrzuć</button>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><h2>Szukaj graczy</h2></div>
+                <div class="pad">
+                  <div class="searchbar"><span>⌕</span><input id="searchIn" placeholder="Wpisz nick…" maxlength="16"><button id="searchBtn" class="primary">Szukaj</button></div>
+                  <div id="searchRes" class="plist"></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><h2>🏆 Najlepsi gracze</h2></div>
+                <div id="topPlayers" class="plist"></div>
+              </div>
+            </div>
+            <div class="comcol">
+              <div class="panel" id="reqPanel" hidden>
+                <div class="panel-head"><h2>Zaproszenia do znajomych</h2></div>
+                <div id="reqList" class="plist"></div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><h2>Znajomi</h2></div>
+                <div id="friendList" class="plist"></div>
+              </div>
+              <div class="panel chatpanel">
+                <div class="panel-head"><h2>💬 Czat społeczności</h2></div>
+                <div class="pad">
+                  <div class="chat" id="globalChat" style="height:260px"></div>
+                  <input id="globalIn" placeholder="Napisz do wszystkich… (wymaga logowania)" maxlength="200">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-settings" hidden>
+          <div class="setgrid">
+            <div class="setcard">
+              <div class="sethead"><span class="seticon">♟</span><div><h3>Rozgrywka</h3><p>Zachowanie planszy podczas partii</p></div></div>
+              <label class="setrow"><span class="stxt"><b>Premovy</b><small>Ruchy z wyprzedzeniem w partii online i z botem</small></span><span class="switch"><input type="checkbox" id="optPremove"><i></i></span></label>
+              <label class="setrow"><span class="stxt"><b>Maks. liczba premovów</b><small>Ile ruchów z rzędu możesz zakolejkować. Prawy przycisk myszy czyści kolejkę.</small></span><select id="optPremoveMax" class="setselect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="30">Bez limitu</option></select></label>
+              <label class="setrow"><span class="stxt"><b>Automatyczny hetman</b><small>Promocja zawsze na hetmana</small></span><span class="switch"><input type="checkbox" id="optAutoQueen"><i></i></span></label><label class="setrow"><span class="stxt"><b>Potwierdzaj poddanie</b><small>Pytaj, zanim się poddasz</small></span><span class="switch"><input type="checkbox" id="optConfirmResign" checked><i></i></span></label><label class="setrow"><span class="stxt"><b>Oceny ruchów</b><small>Świetny, błąd… w analizie i lekcji</small></span><span class="switch"><input type="checkbox" id="optClassify" checked><i></i></span></label>
+            </div>
+            <div class="setcard">
+              <div class="sethead"><span class="seticon">♪</span><div><h3>Dźwięk</h3><p>Efekty na planszy</p></div></div>
+              <label class="setrow"><span class="stxt"><b>Dźwięki ruchów</b><small>Odgłos ruchów, bić i szacha</small></span><span class="switch"><input type="checkbox" id="optSound" checked><i></i></span></label>
+              <label class="setrow"><span class="stxt"><b>Styl dźwięku</b><small>Brzmienie ruchów i bić</small></span><select id="optSoundStyle"><option value="wood">Drewno</option><option value="click">Klik</option><option value="soft">Miękki</option><option value="pop">Pop</option></select></label>
+            </div>
+            <div class="setcard" id="setProfilePanel">
+              <div class="sethead"><span class="seticon">☺</span><div><h3>Profil</h3><p>Awatar, kraj i opis widoczne dla innych</p></div></div>
+              <div class="avrow"><img id="spAvatarPrev" alt="" hidden><div class="avbtns"><label class="filebtn">Wgraj własny awatar<input type="file" id="spAvatarFile" accept="image/png,image/jpeg,image/webp"></label><button id="spAvatarClear" type="button" hidden>Usuń awatar</button></div></div>
+              <div class="fieldgrid">
+                <label class="fld">Kraj<input id="spCountry" maxlength="40" placeholder="np. Polska"></label>
+                <label class="fld">Kolor awatara<input type="color" id="spColor" value="#81b64c"></label>
+              </div>
+              <label class="fld">Opis<input id="spBio" maxlength="200" placeholder="Kilka słów o sobie"></label>
+              <button class="big primary" id="spSave">Zapisz profil</button>
+              <div class="muted small" id="spInfo"></div>
+            </div>
+            <div class="setcard" id="setPassPanel">
+              <div class="sethead"><span class="seticon">🔒</span><div><h3>Bezpieczeństwo</h3><p>Zmiana hasła do konta</p></div></div>
+              <input type="password" id="pwOld" placeholder="Obecne hasło" autocomplete="current-password">
+              <input type="password" id="pwNew" placeholder="Nowe hasło (min. 4 znaki)" autocomplete="new-password">
+              <input type="password" id="pwNew2" placeholder="Powtórz nowe hasło" autocomplete="new-password">
+              <button class="big primary" id="pwSave">Zmień hasło</button>
+              <div class="muted small" id="pwInfo"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpane" id="pane-openings" hidden>
+          <div class="panel"><div class="panel-head"><h2>Otwarcia</h2><button id="drillResetO" type="button">↺ Od nowa</button></div>
+            <div class="pad"><div class="drillmsg">Wybierz otwarcie, aby zacząć ćwiczenie.</div><div id="openList" class="drilllist"></div></div></div>
+        </div>
+        <div class="tabpane" id="pane-gambits" hidden>
+          <div class="panel"><div class="panel-head"><h2>Gambity</h2><button id="drillResetG" type="button">↺ Od nowa</button></div>
+            <div class="pad"><div class="drillmsg">Wybierz gambit, aby zacząć ćwiczenie.</div><div id="gambitList" class="drilllist"></div></div></div>
+        </div>
+
+        <div class="tabpane" id="pane-custom" hidden>
+          <div class="panel">
+            <div class="panel-head"><h2>Gotowe style</h2></div>
+            <div class="pad"><div class="presets" id="presets"></div></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Figury</h2></div>
+            <div class="pad">
+              <div class="pieceset" id="pieceSets"></div>
+              <div class="row colors">
+                <label>Białe bierki <select id="tintW"></select></label>
+                <label>Czarne bierki <select id="tintB"></select></label>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Szachownica</h2></div>
+            <div class="pad">
+              <div class="themes" id="themes"></div>
+              <div class="row colors">
+                <label>Jasne <input type="color" id="cLight" value="#ebecd0"></label>
+                <label>Ciemne <input type="color" id="cDark" value="#739552"></label>
+                <label>Podświetlenie <input type="color" id="cHl" value="#ffff00"></label>
+              </div>
+              <label>Rozmiar planszy <input type="range" id="boardSize" min="40" max="95" value="78"></label>
+              <label class="check"><input type="checkbox" id="optCoords" checked> Współrzędne</label>
+              <label class="check"><input type="checkbox" id="optHints" checked> Podpowiedzi ruchów</label>
+              <label class="check"><input type="checkbox" id="optAnim" checked> Animacje</label>
+              <label>Styl strzałek
+                <select id="arrowStyle"><option value="green">Zielone</option><option value="blue">Niebieskie</option><option value="red">Czerwone</option></select>
+              </label>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Motyw strony</h2></div>
+            <div class="pad"><div class="themes" id="pageThemes"></div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Ruchy</h2><span class="opening" id="openingName"></span></div>
+          <div class="moves" id="moves"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="modal" id="termsModal" hidden style="z-index:200">
+    <div class="modal-box" style="width:520px">
+      <h2>Witaj w Szachach</h2>
+      <div class="termsbox">
+        <h3>Regulamin</h3>
+        <p>Korzystając ze strony akceptujesz niniejszy regulamin. Konto jest osobiste, a podane dane muszą być prawdziwe. Administrator może zawiesić konto naruszające zasady.</p>
+        <h3>Fair play</h3>
+        <p>Zabronione jest korzystanie z silników szachowych i pomocy osób trzecich podczas partii rankingowych, ustawianie wyników, wielokrotne konta oraz celowe opuszczanie partii.</p>
+        <h3>Zachowanie</h3>
+        <p>Szanuj rywali. Obraźliwe wiadomości na czacie i w profilach są niedozwolone.</p>
+        <h3>Prywatność</h3>
+        <p>Przechowujemy nick, e-mail i wyniki partii wyłącznie na potrzeby działania serwisu. Ustawienia i historia mogą być zapisane w Twojej przeglądarce.</p>
+      </div>
+      <label class="check"><input type="checkbox" id="termsCheck"> Akceptuję regulamin, zasady fair play i politykę prywatności</label>
+      <button class="big" id="btnTerms" disabled>Wchodzę</button>
+      <div class="muted small">Aby grać, trzeba założyć konto lub się zalogować.</div>
+    </div>
+  </div>
+  <div class="modal" id="authModal" hidden>
+    <div class="modal-box">
+      <h2>Konto</h2>
+      <input id="authUser" placeholder="Nick" autocomplete="username">
+      <input id="authEmail" type="email" placeholder="E-mail (przy rejestracji i odzyskiwaniu hasła)" autocomplete="email">
+      <input id="authPass" type="password" placeholder="Hasło" autocomplete="current-password">
+      <a href="#" id="linkForgot" class="muted small">Zapomniałem hasła</a>
+      <button id="btnDiscord" type="button" style="background:#5865f2">Zaloguj przez Discord</button>
+      <div class="err" id="authErr"></div>
+      <div class="row">
+        <button class="big" id="btnDoLogin">Zaloguj</button>
+        <button id="btnDoRegister">Załóż konto</button>
+        <button id="btnAuthClose">Zamknij</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="toasts" id="toasts"></div>
+  <div class="promo" id="promo" hidden></div>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" crossorigin="anonymous"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
